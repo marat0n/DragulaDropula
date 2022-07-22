@@ -1,0 +1,8 @@
+@inherits DropTargetModel
+
+<div class="drop-target"
+     @onmouseover="StartWaitDropping"
+     @onmouseout="EndWaitDropping">
+    
+    @ChildContent
+</div>

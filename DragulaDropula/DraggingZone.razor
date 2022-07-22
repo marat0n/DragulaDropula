@@ -1,0 +1,20 @@
+@inject DragNDropController MouseSrv
+
+<div style="width: @Width; height: @Height;"
+     class="no-select"
+     @onmousemove="@(e => MouseSrv.FireMove(e))"
+     @onmouseup="@(() => MouseSrv.FireUp())">
+     
+     <div>
+          @ChildContent
+     </div>
+</div>
+
+@code {
+
+     [Parameter] public RenderFragment? ChildContent { get; set; }
+
+     [Parameter] public string Width { get; set; } = null!;
+     [Parameter] public string Height { get; set; } = null!;
+
+}
