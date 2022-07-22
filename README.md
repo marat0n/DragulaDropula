@@ -1,7 +1,7 @@
 # DragulaDropula
 Library for simple Drag-And-Drop functionality in Blazor.
 
-## How to start use
+## How to start using
 1) Add DradNDropController to Scoped Services.
 ```c#
 builder.Service.AddScoped<DragNDropController>();
@@ -24,18 +24,18 @@ Parameters: <br>
 
 Parameters: <br>
 `ItemToDrop` - object you need to drop (Example below). <br>
-`MustReturnBackOnDrop` - boolean parameter means this component will return to start position when it dropped. <br>
-`OnDrop` - if you need run some logic when Draggable dropped then put your method here. <br>
+`MustReturnBackOnDrop` - boolean parameter means this component will return to start position when it's dropped. <br>
+`OnDrop` - if you need to run some logic when Draggable is dropped then put your method here. <br>
 
 - **DropTarget**
 > Component for creating dropping area
 
 Parameters: <br>
-`OnDrop` - your method for getting dropped DraggableModel (and ItemToDrop in it) and somethind else you need.
+`OnDrop` - your method for getting dropped DraggableModel (and ItemToDrop inside) and something else you need.
 
 
 ## Example
-Let's create some test page in blazor and use DragulaDropula here.
+Let's create a test page in blazor and use DragulaDropula here.
 Page `Test.razor`:
 ```c#
 @page "/Test"
