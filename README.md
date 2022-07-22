@@ -16,16 +16,16 @@ builder.Service.AddScoped<DragNDropController>();
 > Component you need to use as an underlay for Draggable components.
 
 Parameters: <br>
-`Width` - width of DraggingZone
-`Height` - height of DraggingZone
+`Width` - width of DraggingZone. <br>
+`Height` - height of DraggingZone. <br>
 
 - **Draggable**
 > Component you can drag
 
 Parameters: <br>
-`ItemToDrop` - object you need to drop (Example below).
-`MustReturnBackOnDrop` - boolean parameter means this component will return to start position when it dropped.
-`OnDrop` - if you need run some logic when Draggable dropped then put your method here
+`ItemToDrop` - object you need to drop (Example below). <br>
+`MustReturnBackOnDrop` - boolean parameter means this component will return to start position when it dropped. <br>
+`OnDrop` - if you need run some logic when Draggable dropped then put your method here. <br>
 
 - **DropTarget**
 > Component for creating dropping area
