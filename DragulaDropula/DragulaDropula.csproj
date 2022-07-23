@@ -10,7 +10,7 @@
         <Description>Library for simple Drag-And-Drop functionality in Blazor.</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageTags>Dragging, Blazor, DragAndDrop, DragDrop, DragulaDropula</PackageTags>
-        <RepositoryUrl>https://github.com/marat</RepositoryUrl>
+        <RepositoryUrl>https://github.com/marat0n/DragulaDropula</RepositoryUrl>
     </PropertyGroup>
 
 
