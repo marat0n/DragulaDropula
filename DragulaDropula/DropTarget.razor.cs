@@ -4,24 +4,27 @@ namespace DragulaDropula;
 
 public class DropTargetModel : ComponentBase
 {
+    private bool _isWaitDropping;
+    
     [Inject] protected DragNDropController DragDrop { get; set; } = null!;
     
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
     [Parameter] public Action<DraggableModel>? OnDrop { get; set; }
 
-    private bool _isWaitDropping;
+    private void InvokeOnDrop(DraggableModel model) => OnDrop?.Invoke(model);
     
     protected void StartWaitDropping()
     {
         if (_isWaitDropping) return;
-        if (OnDrop is not null) DragDrop.DropToTarget += OnDrop.Invoke;
+        
+        DragDrop.DropToTarget += InvokeOnDrop;
         _isWaitDropping = true;
     }
 
     protected void EndWaitDropping()
     {
-        if (OnDrop is not null) DragDrop.DropToTarget -= OnDrop.Invoke;
+        DragDrop.DropToTarget -= InvokeOnDrop;
         _isWaitDropping = false;
     }
 }
