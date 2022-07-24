@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         
         <PackageId>DragulaDropula</PackageId>
+        <Version>1.0.1</Version>
         <Authors>maraton</Authors>
         <Description>Library for simple Drag-And-Drop functionality in Blazor.</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
