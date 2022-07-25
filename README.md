@@ -1,6 +1,8 @@
 # DragulaDropula
 Library for simple Drag-And-Drop functionality in Blazor.
 
+Nuget Package here 👉 https://www.nuget.org/packages/DragulaDropula
+
 ## How to start using
 1) Add DradNDropController to Scoped Services.
 ```c#
