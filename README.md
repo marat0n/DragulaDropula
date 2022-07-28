@@ -17,24 +17,18 @@ builder.Service.AddScoped<DragNDropController>();
 
 ## API
 ### Components
-<<<<<<< HEAD
 **DraggingZone**
 > Component you need to use as an underlay for Draggable components.
 
-=======
 **DraggingZone** — Component you need to use as an underlay for Draggable components.<br>
->>>>>>> 2185f0ddab09d532c4c821fbb39a56d5626d62c3
 Parameters: <br>
 `Width` - width of DraggingZone. <br>
 `Height` - height of DraggingZone. <br>
 
-<<<<<<< HEAD
 **Draggable**
 > Component you can drag
 
-=======
 **Draggable** — Component you can drag <br>
->>>>>>> 2185f0ddab09d532c4c821fbb39a56d5626d62c3
 Parameters: <br>
 `ItemToDrop` - object you need to drop (Example below). <br>
 `MustReturnBackOnDrop` - boolean parameter means this component will return to start position when it's dropped. <br>
@@ -42,13 +36,10 @@ Parameters: <br>
 `ChildContent` - default child content. <br>
 `ContentWhenDragging` - child content will be rendered when user drags `Draggable` component. <br>
 
-<<<<<<< HEAD
 **DropTarget**
 > Component for creating dropping area
 
-=======
 **DropTarget** — Component for creating dropping area <br>
->>>>>>> 2185f0ddab09d532c4c821fbb39a56d5626d62c3
 Parameters: <br>
 `OnDrop` - your method for getting dropped DraggableModel (and ItemToDrop inside) and something else you need. <br>
 `ValidateItem` - method for validating dropped item. If validation is successful then `OnAccept` will be invoked. <br>
