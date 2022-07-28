@@ -7,10 +7,30 @@ public class DraggableModel : ComponentBase
 {
     [Inject] protected DragNDropController MouseSrv { get; set; } = null!;
     
+    /// <summary>
+    /// Default child content.
+    /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    
+    /// <summary>
+    /// Child content will be rendered when user drags <c>Draggable</c> component.
+    /// </summary>
+    [Parameter] public RenderFragment? ContentWhenDragging { get; set; }
+    
+    /// <summary>
+    /// Object will be passed to the <c>DropTarget</c> component.
+    /// </summary>
     [Parameter] public object ItemToDrop { get; set; } = new();
+    
+    /// <summary>
+    /// If <c>true</c> then this <c>Draggable</c> component will be returned to start position after dropping.
+    /// <c>true</c> is set by default.
+    /// </summary>
     [Parameter] public bool MustReturnBackOnDrop { get; set; } = true;
 
+    /// <summary>
+    /// Method will be invoked when user drops this component.
+    /// </summary>
     [Parameter] public Action<object>? OnDrop { get; set; }
     
     // X coordinate handling
@@ -23,25 +43,16 @@ public class DraggableModel : ComponentBase
 
 #region CursorHandling
 
-    protected string CursorStyle = "grab";
-    
-    private bool _isDragging;
-    protected bool IsDragging {
-        get => _isDragging;
-        set {
-            _isDragging = value;
-            CursorStyle = _isDragging ? "grabbing" : "grab";
-        }
-    }
+    protected bool IsDragging { get; private set; }
 
-    private double _cursorX;
-    private double _cursorY;
+    private double CursorX { get; set; }
+    private double CursorY { get; set; }
 
     protected void StartDragging(MouseEventArgs e) {
         IsDragging = true;
-        _cursorX = e.ClientX;
-        _cursorY = e.ClientY;
-        
+        CursorX = e.PageX;
+        CursorY = e.PageY;
+
         MouseSrv.OnMove += MoveThis;
         MouseSrv.OnDrop += DropThis;
     }
@@ -66,11 +77,11 @@ public class DraggableModel : ComponentBase
     private void MoveThis(MouseEventArgs e) {
         if (!IsDragging) return;
 
-        X -= (_cursorX - e.ClientX);
-        Y -= (_cursorY - e.ClientY);
+        X -= (CursorX - e.PageX);
+        Y -= (CursorY - e.PageY);
 
-        _cursorX = e.ClientX;
-        _cursorY = e.ClientY;
+        CursorX = e.PageX;
+        CursorY = e.PageY;
 
         _xChanged.InvokeAsync(X);
         _yChanged.InvokeAsync(Y);

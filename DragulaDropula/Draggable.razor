@@ -1,12 +1,19 @@
 @inherits DraggableModel
 
 
-<div style="cursor: @CursorStyle;
+<div style="cursor: grab;
             transform: translate(@(X)px, @(Y)px);
             pointer-events: @(IsDragging ? "none" : "all");"
      class="no-select draggable"
      @onmousedown="StartDragging"
      @onmousedown:stopPropagation="true">
-    
-    @ChildContent
+
+    @if (IsDragging & ContentWhenDragging is not null)
+    {
+        @ContentWhenDragging
+    }
+    else
+    {
+        @ChildContent
+    }
 </div>
