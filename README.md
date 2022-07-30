@@ -17,17 +17,13 @@ builder.Service.AddScoped<DragNDropController>();
 
 ## API
 ### Components
-**DraggingZone**
-> Component you need to use as an underlay for Draggable components.
 
 **DraggingZone** — Component you need to use as an underlay for Draggable components.<br>
 Parameters: <br>
 `Width` - width of DraggingZone. <br>
 `Height` - height of DraggingZone. <br>
 
-**Draggable**
-> Component you can drag
-
+***
 **Draggable** — Component you can drag <br>
 Parameters: <br>
 `ItemToDrop` - object you need to drop (Example below). <br>
@@ -36,16 +32,13 @@ Parameters: <br>
 `ChildContent` - default child content. <br>
 `ContentWhenDragging` - child content will be rendered when user drags `Draggable` component. <br>
 
-**DropTarget**
-> Component for creating dropping area
-
+***
 **DropTarget** — Component for creating dropping area <br>
 Parameters: <br>
 `OnDrop` - your method for getting dropped DraggableModel (and ItemToDrop inside) and something else you need. <br>
 `ValidateItem` - method for validating dropped item. If validation is successful then `OnAccept` will be invoked. <br>
 `OnAccept` - action will be invoked only if `ValidateItem` method returns true.<br>
 `OnReject` - action will be invoked only if `ValidateItem` method returns false.<br>
-
 
 ## Example
 Let's create a test page in blazor and use DragulaDropula here.
