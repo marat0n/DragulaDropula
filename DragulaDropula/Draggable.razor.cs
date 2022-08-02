@@ -33,12 +33,16 @@ public class DraggableModel : ComponentBase
     /// </summary>
     [Parameter] public Action<object>? OnDrop { get; set; }
     
-    // X coordinate handling
-    protected double X;
+    /// <summary>
+    /// X position. Set to 0 by default.
+    /// </summary>
+    [Parameter] public double X { get; set; }
     private readonly EventCallback<double> _xChanged = default;
 
-    // Y coordinate handling
-    protected double Y;
+    /// <summary>
+    /// Y position. Set to 0 by default.
+    /// </summary>
+    [Parameter] public double Y { get; set; }
     private readonly EventCallback<double> _yChanged = default;
 
 #region CursorHandling
