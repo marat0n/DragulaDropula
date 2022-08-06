@@ -37,13 +37,13 @@ public class DraggableModel : ComponentBase
     /// X position. Set to 0 by default.
     /// </summary>
     [Parameter] public double X { get; set; }
-    private readonly EventCallback<double> _xChanged = default;
+    [Parameter] public EventCallback<double> XChanged { get; set; }
 
     /// <summary>
     /// Y position. Set to 0 by default.
     /// </summary>
     [Parameter] public double Y { get; set; }
-    private readonly EventCallback<double> _yChanged = default;
+    [Parameter] public EventCallback<double> YChanged { get; set; }
 
 #region CursorHandling
 
@@ -67,6 +67,8 @@ public class DraggableModel : ComponentBase
         {
             X = 0;
             Y = 0;
+            XChanged.InvokeAsync(X);
+            YChanged.InvokeAsync(Y);
         }
         
         IsDragging = false;
@@ -81,14 +83,14 @@ public class DraggableModel : ComponentBase
     private void MoveThis(MouseEventArgs e) {
         if (!IsDragging) return;
 
-        X -= (CursorX - e.PageX);
-        Y -= (CursorY - e.PageY);
-
+        X -= CursorX - e.PageX;
+        Y -= CursorY - e.PageY;
+        
         CursorX = e.PageX;
         CursorY = e.PageY;
 
-        _xChanged.InvokeAsync(X);
-        _yChanged.InvokeAsync(Y);
+        XChanged.InvokeAsync(X);
+        YChanged.InvokeAsync(Y);
     }
 
 #endregion
