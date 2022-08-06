@@ -31,6 +31,8 @@ Parameters: <br>
 `OnDrop` - if you need to run some logic when Draggable is dropped then put your method here. <br>
 `ChildContent` - default child content. <br>
 `ContentWhenDragging` - child content will be rendered when user drags `Draggable` component. <br>
+
+Bindings: <br>
 `X` - position on the X-axis. <br>
 `Y` - position on the Y-axis. <br>
 
