@@ -32,7 +32,12 @@ public class DraggableModel : ComponentBase
     /// Method will be invoked when user drops this component.
     /// </summary>
     [Parameter] public Action<object>? OnDrop { get; set; }
-    
+
+    /// <summary>
+    /// Method will be invoked when user drops this component.
+    /// </summary>
+    [Parameter] public Action<object, double, double>? OnDropWithPosition { get; set; }
+
     /// <summary>
     /// X position. Set to 0 by default.
     /// </summary>
@@ -63,14 +68,6 @@ public class DraggableModel : ComponentBase
 
     private void DropThis(out DraggableModel droppedItem)
     {
-        if (MustReturnBackOnDrop)
-        {
-            X = 0;
-            Y = 0;
-            XChanged.InvokeAsync(X);
-            YChanged.InvokeAsync(Y);
-        }
-        
         IsDragging = false;
         droppedItem = this;
         
@@ -78,6 +75,15 @@ public class DraggableModel : ComponentBase
         MouseSrv.OnDrop -= DropThis;
 
         OnDrop?.Invoke(droppedItem);
+        OnDropWithPosition?.Invoke(droppedItem, X, Y);
+        
+        if (MustReturnBackOnDrop)
+        {
+            X = 0;
+            Y = 0;
+            XChanged.InvokeAsync(X);
+            YChanged.InvokeAsync(Y);
+        }
     }
 
     private void MoveThis(MouseEventArgs e) {
