@@ -8,4 +8,9 @@
 
 .draggable {
     display: inline-block;
+    position: absolute;
+    width: auto;
+    height: auto;
+    top: 0;
+    left: 0;
 }
