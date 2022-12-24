@@ -29,6 +29,7 @@ Parameters: <br>
 `ItemToDrop` - object you need to drop (Example below). <br>
 `MustReturnBackOnDrop` - boolean parameter means this component will return to start position when it's dropped. <br>
 `OnDrop` - if you need to run some logic when Draggable is dropped then put your method here. <br>
+`OnDropWithPosition` - the same as `OnDrop` but also set X and Y parameters when component dropped. <br>
 `ChildContent` - default child content. <br>
 `ContentWhenDragging` - child content will be rendered when user drags `Draggable` component. <br>
 
