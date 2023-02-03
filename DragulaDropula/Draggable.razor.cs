@@ -1,13 +1,11 @@
+using DragulaDropula.Exceptions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using static DragulaDropula.DragNDropController;
 
 namespace DragulaDropula;
 
-public class DraggableModel : ComponentBase
+public class DraggableModel<T> : ComponentBase
 {
-    [Inject] protected DragNDropController MouseSrv { get; set; } = null!;
-    
     /// <summary>
     /// Default child content.
     /// </summary>
@@ -21,7 +19,7 @@ public class DraggableModel : ComponentBase
     /// <summary>
     /// Object will be passed to the <c>DropTarget</c> component.
     /// </summary>
-    [Parameter] public object ItemToDrop { get; set; } = new();
+    [Parameter] public T? ItemToDrop { get; set; } = default;
     
     /// <summary>
     /// If <c>true</c> then this <c>Draggable</c> component will be returned to start position after dropping.
@@ -32,29 +30,66 @@ public class DraggableModel : ComponentBase
     /// <summary>
     /// Method will be invoked when user drops this component.
     /// </summary>
-    [Parameter] public Action<object>? OnDrop { get; set; }
+    [Parameter] public Action<DraggableModel<T>>? OnDrop { get; set; }
 
     /// <summary>
     /// Method will be invoked when user drops this component.
+    /// Also X and Y statements will be set as parameters.
     /// </summary>
-    [Parameter] public Action<object, int, int>? OnDropWithPosition { get; set; }
+    [Parameter] public Action<DraggableModel<T>, int, int>? OnDropWithPosition { get; set; }
+    
+    /// <summary>
+    /// Method will be invoked when this Draggable move.
+    /// </summary>
+    [Parameter] public Action<int, int>? OnMove { get; set; }
+    
+    [Parameter] public Action<DraggableModel<T>, int, int>? OnMoveWithModel { get; set; }
 
     /// <summary>
     /// X position. Set to 0 by default.
     /// </summary>
     [Parameter] public int X { get; set; }
     [Parameter] public EventCallback<int> XChanged { get; set; }
+    
+    [Parameter] public int StartX { get; set; }
 
     /// <summary>
     /// Y position. Set to 0 by default.
     /// </summary>
     [Parameter] public int Y { get; set; }
     [Parameter] public EventCallback<int> YChanged { get; set; }
+    
+    [Parameter] public int StartY { get; set; }
+
+    [Parameter] public string CssClass { get; set; } = string.Empty;
+
+    [CascadingParameter(Name = "DragulaDropula_DraggingStateContainer")]
+    public DraggingStateContainer<T> DraggingStateContainer { get; set; } = null!;
 
     protected bool IsDragging { get; private set; }
 
     private double CursorX { get; set; }
     private double CursorY { get; set; }
+
+    private readonly DraggingStateContainerIsNotSetException _draggingStateContainerIsNotSetException = new();
+
+    private bool _firstParametersSet = true;
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (!_firstParametersSet) return;
+        
+        X = StartX;
+        Y = StartY;
+        _firstParametersSet = false;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (!firstRender) return;
+        if (DraggingStateContainer is null) throw _draggingStateContainerIsNotSetException;
+    }
 
     private void TryReturnBack()
     {
@@ -71,49 +106,22 @@ public class DraggableModel : ComponentBase
         CursorX = e.PageX;
         CursorY = e.PageY;
 
-        MouseSrv.OnMove += MoveThis;
-        MouseSrv.OnDrop += DropThis;
+        DraggingStateContainer.InvokeOnStartDragging(this);
+        DraggingStateContainer.OnMove += MoveThis;
+        DraggingStateContainer.OnDrop += DropThis;
     }
 
-    protected void StartDragging(MouseEventArgs e, DraggingEventHandler actionToMove, DroppingEventHandler actionToDrop)
-    {
-        IsDragging = true;
-        CursorX = e.PageX;
-        CursorY = e.PageY;
-
-        MouseSrv.OnMove += actionToMove;
-        MouseSrv.OnDrop += actionToDrop;
-    }
-
-    private void DropThis(out DraggableModel droppedItem)
+    private void DropThis(T? data)
     {
         IsDragging = false;
-        droppedItem = this;
-        
-        MouseSrv.OnMove -= MoveThis;
-        MouseSrv.OnDrop -= DropThis;
 
-        OnDrop?.Invoke(droppedItem);
-        OnDropWithPosition?.Invoke(droppedItem, X, Y);
+        OnDrop?.Invoke(this);
+        OnDropWithPosition?.Invoke(this, X, Y);
         
         TryReturnBack();
     }
 
-    protected void DropThis(out DraggableModel droppedItem, DraggingEventHandler actionToMove, DroppingEventHandler actionToDrop)
-    {
-        IsDragging = false;
-        droppedItem = this;
-
-        MouseSrv.OnMove -= actionToMove;
-        MouseSrv.OnDrop -= actionToDrop;
-
-        OnDrop?.Invoke(droppedItem);
-        OnDropWithPosition?.Invoke(droppedItem, X, Y);
-
-        TryReturnBack();
-    }
-
-    protected void MoveThis(MouseEventArgs e) {
+    private void MoveThis(MouseEventArgs e) {
         if (!IsDragging) return;
 
         X -= (int)(CursorX - e.PageX);
@@ -124,5 +132,8 @@ public class DraggableModel : ComponentBase
 
         XChanged.InvokeAsync(X);
         YChanged.InvokeAsync(Y);
+        
+        OnMove?.Invoke(X, Y);
+        OnMoveWithModel?.Invoke(this, X, Y);
     }
 }

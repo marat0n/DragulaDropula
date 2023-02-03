@@ -1,14 +1,15 @@
-@inherits DraggableModel
+@typeparam T
+@inherits DraggableModel<T>
 
 
 <div style="cursor: grab;
             transform: translate(@(X)px, @(Y)px);
             pointer-events: @(IsDragging ? "none" : "all");"
-     class="no-select draggable"
+     class="no-select draggable @CssClass"
      @onmousedown="StartDragging"
      @onmousedown:stopPropagation="true">
 
-    @if (IsDragging & ContentWhenDragging is not null)
+    @if (IsDragging && ContentWhenDragging is not null)
     {
         @ContentWhenDragging
     }

@@ -1,6 +1,7 @@
-@inherits DropTargetModel
+@typeparam T
+@inherits DropTargetModel<T>
 
-<div class="drop-target"
+<div class="drop-target @CssClass"
      @onmouseover="StartWaitDropping"
      @onmouseout="EndWaitDropping">
     

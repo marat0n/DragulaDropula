@@ -1,12 +1,17 @@
-@inject DragNDropController MouseSrv
+@typeparam T
 
 <div style="width: @Width; height: @Height;"
-     class="no-select"
-     @onmousemove="@(e => MouseSrv.FireMove(e))"
-     @onmouseup="@(() => MouseSrv.FireUp())">
+     class="no-select @CssClass"
+     @onmousemove="@(args => _draggingStateContainer.InvokeOnMove(args))"
+     @onmouseup="@(() => _draggingStateContainer.InvokeOnDrop())">
      
      <div style="width: 100%; height: 100%;">
-          @ChildContent
+          <CascadingValue
+               TValue="DraggingStateContainer<T>" Name="DragulaDropula_DraggingStateContainer"
+               Value="_draggingStateContainer">
+               
+               @ChildContent
+          </CascadingValue>
      </div>
 </div>
 
@@ -16,5 +21,9 @@
 
      [Parameter] public string Width { get; set; } = null!;
      [Parameter] public string Height { get; set; } = null!;
+
+     [Parameter] public string CssClass { get; set; } = string.Empty;
+
+     private DraggingStateContainer<T> _draggingStateContainer = new();
 
 }
