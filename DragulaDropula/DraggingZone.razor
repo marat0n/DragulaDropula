@@ -2,8 +2,9 @@
 
 <div style="width: @Width; height: @Height;"
      class="no-select @CssClass"
-     @onmousemove="@(args => _draggingStateContainer.InvokeOnMove(args))"
-     @onmouseup="@(() => _draggingStateContainer.InvokeOnDrop())">
+     id="@Id"
+     @onmousemove="OnMouseMove"
+     @onmouseup="OnMouseUp">
      
      <div style="width: 100%; height: 100%;">
           <CascadingValue
@@ -17,13 +18,40 @@
 
 @code {
 
-     [Parameter] public RenderFragment? ChildContent { get; set; }
+     [Parameter]
+     public RenderFragment? ChildContent { get; set; }
 
-     [Parameter] public string Width { get; set; } = null!;
-     [Parameter] public string Height { get; set; } = null!;
+     [Parameter]
+     public string Width { get; set; } = null!;
 
-     [Parameter] public string CssClass { get; set; } = string.Empty;
+     [Parameter]
+     public string Height { get; set; } = null!;
+
+     [Parameter]
+     public string CssClass { get; set; } = string.Empty;
+
+     [Parameter]
+     public string Id { get; set; } = string.Empty;
 
      private DraggingStateContainer<T> _draggingStateContainer = new();
+
+     private bool _shouldRender;
+
+     private void OnMouseMove(MouseEventArgs args)
+     {
+          _draggingStateContainer.InvokeOnMove(args);
+          _shouldRender = _draggingStateContainer.ModelDraggingNow is not null;
+     }
+
+     private void OnMouseUp(MouseEventArgs args)
+     {
+          _draggingStateContainer.InvokeOnDrop(args);
+          _shouldRender = false;
+     }
+
+     protected override bool ShouldRender()
+     {
+          return _shouldRender && base.ShouldRender();
+     }
 
 }

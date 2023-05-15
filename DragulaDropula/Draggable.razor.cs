@@ -19,7 +19,7 @@ public class DraggableModel<T> : ComponentBase
     /// <summary>
     /// Object will be passed to the <c>DropTarget</c> component.
     /// </summary>
-    [Parameter] public T? ItemToDrop { get; set; } = default;
+    [Parameter] public T? ItemToDrop { get; set; }
     
     /// <summary>
     /// If <c>true</c> then this <c>Draggable</c> component will be returned to start position after dropping.
@@ -62,6 +62,8 @@ public class DraggableModel<T> : ComponentBase
     [Parameter] public int StartY { get; set; }
 
     [Parameter] public string CssClass { get; set; } = string.Empty;
+    
+    [Parameter] public string Id { get; set; } = string.Empty;
 
     [CascadingParameter(Name = "DragulaDropula_DraggingStateContainer")]
     public DraggingStateContainer<T> DraggingStateContainer { get; set; } = null!;
@@ -111,7 +113,7 @@ public class DraggableModel<T> : ComponentBase
         DraggingStateContainer.OnDrop += DropThis;
     }
 
-    private void DropThis(T? data)
+    private void DropThis(T? data, MouseEventArgs _)
     {
         IsDragging = false;
 

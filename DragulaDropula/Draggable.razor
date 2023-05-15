@@ -6,6 +6,7 @@
             transform: translate(@(X)px, @(Y)px);
             pointer-events: @(IsDragging ? "none" : "all");"
      class="no-select draggable @CssClass"
+     id="@Id"
      @onmousedown="StartDragging"
      @onmousedown:stopPropagation="true">
 

@@ -10,7 +10,7 @@ public sealed class DraggingStateContainer<T>
     
     public event Action<MouseEventArgs>? OnMove;
 
-    public event Action<T?>? OnDrop;
+    public event Action<T?, MouseEventArgs>? OnDrop;
 
     public void InvokeOnStartDragging(DraggableModel<T> draggable)
     {
@@ -20,19 +20,22 @@ public sealed class DraggingStateContainer<T>
 
     public void InvokeOnMove(MouseEventArgs args)
     {
-        OnMove?.Invoke(args);
+        if (ModelDraggingNow is not null)
+        {
+            OnMove?.Invoke(args);
+        }
     }
 
-    public void InvokeOnDrop(T? data)
+    public void InvokeOnDrop(T? data, MouseEventArgs args)
     {
-        OnDrop?.Invoke(data);
+        OnDrop?.Invoke(data, args);
         ModelDraggingNow = null;
     }
     
-    public void InvokeOnDrop()
+    public void InvokeOnDrop(MouseEventArgs args)
     {
         if (ModelDraggingNow is null) return;
-        OnDrop?.Invoke(ModelDraggingNow.ItemToDrop);
+        OnDrop?.Invoke(ModelDraggingNow.ItemToDrop, args);
         ModelDraggingNow = null;
     }
 }
