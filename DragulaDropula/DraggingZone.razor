@@ -49,9 +49,6 @@
           _shouldRender = false;
      }
 
-     protected override bool ShouldRender()
-     {
-          return _shouldRender && base.ShouldRender();
-     }
+     protected override bool ShouldRender() => _shouldRender && base.ShouldRender();
 
 }

@@ -100,6 +100,7 @@ public class DraggableModel<T> : ComponentBase
         Y = 0;
         XChanged.InvokeAsync(X);
         YChanged.InvokeAsync(Y);
+        StateHasChanged();
     }
 
     protected void StartDragging(MouseEventArgs e)
