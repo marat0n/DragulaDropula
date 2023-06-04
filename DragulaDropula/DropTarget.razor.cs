@@ -63,6 +63,9 @@ public class DropTargetModel<T> : ComponentBase
         
         OnDrop?.Invoke(data);
         OnDropWithEventArgs?.Invoke(data, args);
+        
+        DraggingStateContainer.OnDrop -= InvokeOnDrop;
+        _isWaitDropping = false;
     }
 
     protected void StartWaitDropping()
