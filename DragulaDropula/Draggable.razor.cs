@@ -19,7 +19,7 @@ public class DraggableModel<T> : ComponentBase
     /// <summary>
     /// Object will be passed to the <c>DropTarget</c> component.
     /// </summary>
-    [Parameter] public T? ItemToDrop { get; set; }
+    [Parameter] public T ItemToDrop { get; set; } = default!;
     
     /// <summary>
     /// If <c>true</c> then this <c>Draggable</c> component will be returned to start position after dropping.
